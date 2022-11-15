@@ -6,27 +6,34 @@ import "time"
 // User 1 <--> n Message
 // Message n <--> 1 Member
 
+type UserID string
+
 type User struct {
-	UserID    string
+	UserID    UserID
 	Name      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
-type Member struct {
-	MemberID    string
+type ChannelID string
+
+type Channel struct {
+	ChannelID   ChannelID
 	Users       []*User
 	MessageList []*Message
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
 
+type MessageID string
+
 type Message struct {
-	MessageID   string
-	MessageBody string
-	Author      User
-	IsSend      bool
-	SendAt      time.Time
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	MessageID    MessageID
+	MessageTitle string
+	MessageBody  string
+	Author       User
+	IsSend       bool
+	SendAt       time.Time
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
