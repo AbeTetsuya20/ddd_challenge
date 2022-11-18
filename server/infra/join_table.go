@@ -8,10 +8,10 @@ import (
 )
 
 type JoinChannelToUserRepository struct {
-	Conn *sql.Conn
+	Conn *sql.DB
 }
 
-func NewJoinChannelToUserRepository(conn *sql.Conn) *JoinChannelToUserRepository {
+func NewJoinChannelToUserRepository(conn *sql.DB) *JoinChannelToUserRepository {
 	return &JoinChannelToUserRepository{Conn: conn}
 }
 
