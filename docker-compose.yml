@@ -4,14 +4,15 @@ services:
     build:
       context: .
       dockerfile: docker/dockerfile
-    # depends_on:
-    # - db
+    depends_on:
+      - db
     volumes:
       - ./:/go/src/app
     tty: true
 
   db:
     image: mysql:5.7
+    platform: linux/amd64
     ports:
       - "3306:3306"
     volumes:
