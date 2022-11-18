@@ -1,12 +1,15 @@
 package model
 
-import "time"
-
-// User n <--> 1 Member
-// User 1 <--> n Message
-// Message n <--> 1 Member
+import (
+	"fmt"
+	"time"
+)
 
 type UserID string
+
+func NewUserID(name string) UserID {
+	return UserID(fmt.Sprintf("userID_%s", name))
+}
 
 type User struct {
 	UserID    UserID
@@ -15,25 +18,12 @@ type User struct {
 	UpdatedAt time.Time
 }
 
-type ChannelID string
-
-type Channel struct {
-	ChannelID   ChannelID
-	Users       []*User
-	MessageList []*Message
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-}
-
-type MessageID string
-
-type Message struct {
-	MessageID    MessageID
-	MessageTitle string
-	MessageBody  string
-	Author       User
-	IsSend       bool
-	SendAt       time.Time
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+func NewUser(userName string) *User {
+	now := time.Now()
+	return &User{
+		UserID:    NewUserID(userName),
+		Name:      userName,
+		CreatedAt: now,
+		UpdatedAt: now,
+	}
 }
