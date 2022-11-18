@@ -65,8 +65,8 @@ func (c ChannelRepository) UpdateChannel(ctx context.Context, channelID domain.C
 	return nil
 }
 
-func (c ChannelRepository) DeleteChannel(ctx context.Context, channelID *domain.ChannelID) error {
-	query := "DELETE FROM channel WHERE id=?"
+func (c ChannelRepository) DeleteChannel(ctx context.Context, channelID domain.ChannelID) error {
+	query := "DELETE FROM channel WHERE id = ?"
 	_, err := c.Conn.ExecContext(ctx, query, channelID)
 	if err != nil {
 		log.Printf("[ERROR] Delete: %+v", err)

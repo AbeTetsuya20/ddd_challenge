@@ -33,7 +33,7 @@ type Usecase interface {
 	// チャンネルを作成する
 	CreateChannel(ctx context.Context, channel *domain.Channel) error
 	// チャンネルを削除する
-	DeleteChannel(ctx context.Context, channel *domain.Channel) error
+	DeleteChannel(ctx context.Context, channelD domain.ChannelID) error
 }
 
 type ChatToolUsecase struct {
@@ -67,8 +67,8 @@ func (c ChatToolUsecase) EditChannelConfig(ctx context.Context, beforeChannel *d
 	return err
 }
 
-func (c ChatToolUsecase) DeleteChannel(ctx context.Context, channel *domain.Channel) error {
-	err := c.ChannelRepo.DeleteChannel(ctx, channel)
+func (c ChatToolUsecase) DeleteChannel(ctx context.Context, channelD domain.ChannelID) error {
+	err := c.ChannelRepo.DeleteChannel(ctx, channelD)
 	return err
 }
 
