@@ -2,110 +2,22 @@ package handler
 
 import (
 	"context"
-	"log"
+	domain "github.com/AbeTetsuya20/ddd_challenge/server/domain/model"
+	"github.com/AbeTetsuya20/ddd_challenge/server/usecase"
 	"net/http"
-	"os"
-
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	"github.com/go-chi/render"
 )
 
-func Server(ctx context.Context) {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+type ServiceDriver struct {
+	Controller usecase.Usecase
+}
 
-	r.Get("/debug", func(w http.ResponseWriter, r *http.Request) {
-		data := map[string]string{
-			"message": "hello",
-		}
-		render.JSON(w, r, data)
-	})
-
-	r.Route("/api", func(r chi.Router) {
-		r.Route("/message", func(r chi.Router) {
-			r.Route("/get", func(r chi.Router) {
-				r.Get("/send", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "send",
-					}
-					render.JSON(w, r, data)
-				})
-
-				r.Get("/notsend", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "notsend",
-					}
-					render.JSON(w, r, data)
-				})
-			})
-		})
-
-		r.Route("/channel", func(r chi.Router) {
-			r.Get("/get", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "get",
-				}
-				render.JSON(w, r, data)
-			})
-
-			r.Get("/create", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "create",
-				}
-				render.JSON(w, r, data)
-			})
-		})
-
-		r.Route("/user", func(r chi.Router) {
-			r.Get("/get", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "/user/get",
-				}
-				render.JSON(w, r, data)
-			})
-		})
-
-		r.Route("/join", func(r chi.Router) {
-			r.Get("/delete", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "delete",
-				}
-				render.JSON(w, r, data)
-			})
-
-			r.Get("/create", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "create",
-				}
-				render.JSON(w, r, data)
-			})
-
-			r.Route("/get", func(r chi.Router) {
-				r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "/join/get/user",
-					}
-					render.JSON(w, r, data)
-				})
-
-				r.Get("/channel", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "channel",
-					}
-					render.JSON(w, r, data)
-				})
-			})
-		})
-	})
-
-	addr := os.Getenv("Addr")
-	if addr == "" {
-		addr = ":8080"
+func NewServiceDriver(controller usecase.Usecase) *ServiceDriver {
+	return &ServiceDriver{
+		Controller: controller,
 	}
+}
 
-	log.Printf("listen: %s", addr)
-	if err := http.ListenAndServe(addr, r); err != nil {
-		log.Fatalf("!! %+v", err)
-	}
+func (s *ServiceDriver) MessageGetSend(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	message := &domain.Message{}
+	s.Controller.SendMessage(ctx, message)
 }
