@@ -25,15 +25,15 @@ type MessageRepository interface {
 
 	// ChannelID を指定して送信済みすべてのメッセージ一覧を取得
 	// フロントエンドから 1 分に 1 回のリクエストを想定
-	GetAllSendMessage(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
+	GetAllSendMessages(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
 
 	// ChannelID を指定して特定の user の未送信のメッセージ一覧を取得
-	GetMessageByChannelIDByIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
+	GetMessagesByChannelIDAndIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID, userID domain.UserID) ([]*domain.Message, error)
 
 	// メッセージを更新する
-	UpdateMessage(ctx context.Context, afterMessage *domain.Message) error
+	UpdateMessage(ctx context.Context, updatedMessage *domain.Message) error
 	// メッセージを削除する
-	DeleteMessage(ctx context.Context, message *domain.Message) error
+	DeleteMessage(ctx context.Context, messageID domain.MessageID) error
 }
 
 type JoinChannelToUserRepository interface {

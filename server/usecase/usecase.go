@@ -75,7 +75,7 @@ func (c ChatToolUsecase) DeleteChannel(ctx context.Context, channelD domain.Chan
 }
 
 func (c ChatToolUsecase) MessageList(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error) {
-	messages, err := c.MessageRepo.GetAllSendMessage(ctx, channelID)
+	messages, err := c.MessageRepo.GetAllSendMessages(ctx, channelID)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (c ChatToolUsecase) MessageList(ctx context.Context, channelID domain.Chann
 
 func (c ChatToolUsecase) GetScheduleToSendMessage(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error) {
 	// userID は header から取得
-	messages, err := c.MessageRepo.GetMessageByChannelIDByIsNotSendAndUserID(ctx, channelID)
+	messages, err := c.MessageRepo.GetMessagesByChannelIDAndIsNotSendAndUserID(ctx, channelID, "")
 	if err != nil {
 		return nil, err
 	}
