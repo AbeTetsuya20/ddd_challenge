@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	handler "github.com/AbeTetsuya20/ddd_challenge/server/interface"
 	"github.com/go-sql-driver/mysql"
-	"log"
 	"net"
 	"os"
 	"strconv"
@@ -22,27 +22,12 @@ func main() {
 		fmt.Println("error db Open")
 		os.Exit(1)
 	}
-
-	_, err = sql.ExecContext(ctx, "use app")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, err = sql.ExecContext(ctx, "CREATE TABLE IF NOT EXISTS user (id integer, name varchar(30))")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	query := "INSERT INTO user (id, name) VALUES (?, ?)"
-	_, err = sql.ExecContext(ctx, query, 1234, "test")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	defer sql.Close()
 
 	// interface の初期化
 
 	// サーバーの起動
+	handler.Server(ctx)
 
 	fmt.Println("finish main.go")
 }
