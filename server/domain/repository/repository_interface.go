@@ -22,10 +22,16 @@ type ChannelRepository interface {
 type MessageRepository interface {
 	// 新しいメッセージを作成する
 	CreateMessage(ctx context.Context, message *domain.Message) error
-	// ChannelID を指定してメッセージ一覧を取得
-	GetMessageByChannelID(ctx context.Context, channelID domain.ChannelID) (*domain.Message, error)
+
+	// ChannelID を指定して送信済みすべてのメッセージ一覧を取得
+	// フロントエンドから 1 分に 1 回のリクエストを想定
+	GetAllSendMessage(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
+
+	// ChannelID を指定して特定の user の未送信のメッセージ一覧を取得
+	GetMessageByChannelIDByIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
+
 	// メッセージを更新する
-	UpdateMessage(ctx context.Context, beforeMessage *domain.Message, afterMessage *domain.Message) error
+	UpdateMessage(ctx context.Context, afterMessage *domain.Message) error
 	// メッセージを削除する
 	DeleteMessage(ctx context.Context, message *domain.Message) error
 }

@@ -15,12 +15,17 @@ func (m MessageRepository) CreateMessage(ctx context.Context, message *domain.Me
 	panic("implement me")
 }
 
-func (m MessageRepository) GetMessageByChannelID(ctx context.Context, id domain.ChannelID) (*domain.Message, error) {
+func (m MessageRepository) GetAllSendMessage(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (m MessageRepository) UpdateMessage(ctx context.Context, beforeMessage *domain.Message, afterMessage *domain.Message) error {
+func (m MessageRepository) GetMessageByChannelIDByIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m MessageRepository) UpdateMessage(ctx context.Context, afterMessage *domain.Message) error {
 	//TODO implement me
 	panic("implement me")
 }
