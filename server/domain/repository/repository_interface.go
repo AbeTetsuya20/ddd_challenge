@@ -38,9 +38,9 @@ type MessageRepository interface {
 
 type JoinChannelToUserRepository interface {
 	// userID を指定して channelID を GET
-	GetChannelIDByUserID(ctx context.Context, id domain.UserID) ([]domain.ChannelID, error)
+	GetChannelIDByUserID(ctx context.Context, userID domain.UserID) ([]domain.ChannelID, error)
 	// channelID を指定して userID を GET
-	GetUserIDByChannelID(ctx context.Context, id domain.ChannelID) ([]domain.UserID, error)
+	GetUserIDByChannelID(ctx context.Context, userID domain.ChannelID) ([]domain.UserID, error)
 	// チャンネルに入会したときに実行される
 	CreateConnectionUserIDToChannelID(ctx context.Context, userid domain.UserID, channelID domain.ChannelID) error
 	// チャンネルから脱退したときに実行される

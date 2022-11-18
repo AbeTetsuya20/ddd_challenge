@@ -10,12 +10,12 @@ type JoinChannelToUserRepository struct {
 	Conn *sql.Conn
 }
 
-func (j JoinChannelToUserRepository) GetChannelIDByUserID(ctx context.Context, id domain.UserID) ([]domain.ChannelID, error) {
+func (j JoinChannelToUserRepository) GetChannelIDByUserID(ctx context.Context, userID domain.UserID) ([]domain.ChannelID, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (j JoinChannelToUserRepository) GetUserIDByChannelID(ctx context.Context, id domain.ChannelID) ([]domain.UserID, error) {
+func (j JoinChannelToUserRepository) GetUserIDByChannelID(ctx context.Context, userID domain.ChannelID) ([]domain.UserID, error) {
 	//TODO implement me
 	panic("implement me")
 }
