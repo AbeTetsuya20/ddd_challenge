@@ -18,14 +18,3 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
-
-func NewUser(userName string, password string) *User {
-	now := time.Now()
-	return &User{
-		UserID:    NewUserID(userName),
-		Name:      userName,
-		Password:  password,
-		CreatedAt: now,
-		UpdatedAt: now,
-	}
-}

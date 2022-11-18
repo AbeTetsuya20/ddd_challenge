@@ -27,11 +27,12 @@ type Usecase interface {
 	DeleteChannel(ctx context.Context, channel *domain.Channel) error
 
 	// チャンネルの全メッセージを取得する。これが画面に表示される
-	MessageList(ctx context.Context, channelID *domain.ChannelID) (*domain.Message, error)
+	MessageList(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
 
 	// Message に関する Usecase
 
 	// ユーザーは、【送信予定のメッセージ】を全て確認できる
+	// header に ユーザー ID を入れているものとする
 	GetScheduleToSendMessage(ctx context.Context, channelID *domain.ChannelID) (*domain.Channel, error)
 
 	// ユーザーは、【送信予定のメッセージ】を編集・削除できる
@@ -53,28 +54,28 @@ func (c ChatToolUsecase) SendMessage(ctx context.Context, messageID domain.Messa
 }
 
 func (c ChatToolUsecase) CreateUser(ctx context.Context, user *domain.User) error {
-	//TODO implement me
-	panic("implement me")
+	err := c.UserRepo.CreateUser(ctx, user)
+	return err
 }
 
 func (c ChatToolUsecase) CreateChannel(ctx context.Context, channel *domain.Channel) error {
-	//TODO implement me
-	panic("implement me")
+	err := c.ChannelRepo.CreateChannel(ctx, channel)
+	return err
 }
 
 func (c ChatToolUsecase) EditChannelConfig(ctx context.Context, beforeChannel *domain.Channel, afterChannel *domain.Channel) error {
-	//TODO implement me
-	panic("implement me")
+	err := c.ChannelRepo.UpdateChannel(ctx, beforeChannel, afterChannel)
+	return err
 }
 
 func (c ChatToolUsecase) DeleteChannel(ctx context.Context, channel *domain.Channel) error {
-	//TODO implement me
-	panic("implement me")
+	err := c.ChannelRepo.DeleteChannel(ctx, channel)
+	return err
 }
 
-func (c ChatToolUsecase) MessageList(ctx context.Context, channelID *domain.ChannelID) (*domain.Message, error) {
-	//TODO implement me
-	panic("implement me")
+func (c ChatToolUsecase) MessageList(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error) {
+	messages, err := c.MessageRepo.GetMessageByChannelID(ctx, channelID)
+	return messages, nil
 }
 
 func (c ChatToolUsecase) GetScheduleToSendMessage(ctx context.Context, channelID *domain.ChannelID) (*domain.Channel, error) {

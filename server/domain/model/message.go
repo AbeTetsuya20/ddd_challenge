@@ -16,22 +16,9 @@ type Message struct {
 	MessageTitle string
 	MessageBody  string
 	Author       UserID
+	Channel      ChannelID
 	IsSend       bool
 	SendAt       time.Time
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
-}
-
-func NewMessage(messageTitle, messageBody string, author UserID, sendAt time.Time) *Message {
-	now := time.Now()
-	return &Message{
-		MessageID:    NewMessageID(messageTitle),
-		MessageTitle: messageTitle,
-		MessageBody:  messageBody,
-		Author:       author,
-		IsSend:       false,
-		SendAt:       sendAt,
-		CreatedAt:    now,
-		UpdatedAt:    now,
-	}
 }
