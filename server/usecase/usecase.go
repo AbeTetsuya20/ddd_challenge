@@ -10,18 +10,8 @@ type Usecase interface {
 
 	// ユーザーは、【チャット】の【所属メンバー】に【メッセージ】を送信する
 	SendMessage(ctx context.Context, message *domain.Message) error
-	
-	CreateUser(ctx context.Context, user *domain.User) error
-
-	// チャンネルを作成する
-	CreateChannel(ctx context.Context, channel *domain.Channel) error
-
-	// ユーザーは、【チャット】の【名前】,【所属メンバー】などを設定する。つまり、チャンネルの名前を編集する？
+	// ユーザーは、【チャット】の【名前】,【所属メンバー】などを設定する。
 	EditChannelConfig(ctx context.Context, beforeChannel *domain.Channel, afterChannel *domain.Channel) error
-
-	// チャンネルを削除する
-	DeleteChannel(ctx context.Context, channel *domain.Channel) error
-
 	// チャンネルの全メッセージを取得する。これが画面に表示される
 	// フロントエンドから 60 秒に一回のリクエストを想定
 	MessageList(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
@@ -33,12 +23,28 @@ type Usecase interface {
 
 	// ユーザーは、【送信予定のメッセージ】を編集・削除できる
 	EditScheduleToSendMessage(ctx context.Context, afterMessage *domain.Message) error
+
+	// User を作成する
+	CreateUser(ctx context.Context, user *domain.User) error
+	// GetUser
+	// UpdateUser
+	// DeleteUser
+
+	// チャンネルを作成する
+	CreateChannel(ctx context.Context, channel *domain.Channel) error
+	// チャンネルを削除する
+	DeleteChannel(ctx context.Context, channel *domain.Channel) error
 }
 
 type ChatToolUsecase struct {
 	UserRepo    repository.UserRepository
 	ChannelRepo repository.ChannelRepository
 	MessageRepo repository.MessageRepository
+	JoinRepo    repository.JoinChannelToUserRepository
+}
+
+func NewChatToolUsecase(userRepo repository.UserRepository, channelRepo repository.ChannelRepository, messageRepo repository.MessageRepository, joinRepo repository.JoinChannelToUserRepository) *ChatToolUsecase {
+	return &ChatToolUsecase{UserRepo: userRepo, ChannelRepo: channelRepo, MessageRepo: messageRepo, JoinRepo: joinRepo}
 }
 
 func (c ChatToolUsecase) SendMessage(ctx context.Context, message *domain.Message) error {

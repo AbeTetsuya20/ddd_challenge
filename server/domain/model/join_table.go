@@ -1,6 +1,8 @@
 package model
 
 type JoinChannelToUser struct {
-	UserID    UserID
-	ChannelID ChannelID
+	UserID      UserID
+	UserName    string
+	ChannelID   ChannelID
+	ChannelName string
 }

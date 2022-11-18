@@ -12,6 +12,8 @@ func main() {
 
 	// database の初期化
 
+	// interface の初期化
+
 	// サーバーの起動
 
 	fmt.Println("finish main.go")
