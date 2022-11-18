@@ -10,6 +10,10 @@ type MessageRepository struct {
 	Conn *sql.Conn
 }
 
+func NewMessageRepository(conn *sql.Conn) *MessageRepository {
+	return &MessageRepository{Conn: conn}
+}
+
 func (m MessageRepository) CreateMessage(ctx context.Context, message *domain.Message) error {
 	//TODO implement me
 	panic("implement me")

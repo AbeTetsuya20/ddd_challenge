@@ -11,6 +11,10 @@ type ChannelRepository struct {
 	Conn *sql.Conn
 }
 
+func NewChannelRepository(conn *sql.Conn) *ChannelRepository {
+	return &ChannelRepository{Conn: conn}
+}
+
 func ScanChannels(rows *sql.Rows) ([]*domain.Channel, int, error) {
 	channels := make([]*domain.Channel, 0)
 

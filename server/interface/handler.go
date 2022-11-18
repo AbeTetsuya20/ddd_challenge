@@ -11,7 +11,7 @@ type ServiceDriver struct {
 	Controller usecase.Usecase
 }
 
-func NewServiceDriver(controller usecase.Usecase) *ServiceDriver {
+func NewServiceDriver(controller usecase.ChatToolUsecase) *ServiceDriver {
 	return &ServiceDriver{
 		Controller: controller,
 	}

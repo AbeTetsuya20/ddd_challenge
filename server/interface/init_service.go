@@ -6,6 +6,9 @@ import (
 )
 
 func InitService(conn *sql.Conn) (Service, error) {
-	_ = infra.NewUserRepository(conn)
+	userRepo := infra.NewUserRepository(conn)
+	channelRepo := infra.NewChannelRepository(conn)
+	messageRepo := infra.NewMessageRepository(conn)
+
 	return nil, nil
 }
