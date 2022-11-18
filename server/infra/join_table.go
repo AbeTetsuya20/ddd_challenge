@@ -17,7 +17,7 @@ func ScanChannelIDs(rows *sql.Rows) ([]domain.ChannelID, int, error) {
 	for rows.Next() {
 		var v domain.ChannelID
 		if err := rows.Scan(&v); err != nil {
-			log.Printf("[ERROR] scan Channels: %+v", err)
+			log.Printf("[ERROR] scan ScanChannelIDs: %+v", err)
 			return nil, 0, err
 		}
 		channelIDs = append(channelIDs, v)
@@ -32,7 +32,7 @@ func ScanUserIDs(rows *sql.Rows) ([]domain.UserID, int, error) {
 	for rows.Next() {
 		var v domain.UserID
 		if err := rows.Scan(&v); err != nil {
-			log.Printf("[ERROR] scan UserIDs: %+v", err)
+			log.Printf("[ERROR] scan ScanUserIDs: %+v", err)
 			return nil, 0, err
 		}
 		userIDs = append(userIDs, v)
@@ -45,7 +45,7 @@ func (j JoinChannelToUserRepository) GetChannelIDsByUserID(ctx context.Context, 
 	query := "SELECT * FROM joinChannelToUser WHERE UserID = ?"
 	rows, err := j.Conn.QueryContext(ctx, query, userID)
 	if err != nil {
-		log.Printf("[ERROR] can't get channelIDs: %+v", err)
+		log.Printf("[ERROR] can't get GetChannelIDsByUserID: %+v", err)
 		return nil, err
 	}
 
@@ -62,7 +62,7 @@ func (j JoinChannelToUserRepository) GetUserIDsByChannelID(ctx context.Context, 
 	query := "SELECT * FROM joinChannelToUser WHERE ChannelID = ?"
 	rows, err := j.Conn.QueryContext(ctx, query, channelID)
 	if err != nil {
-		log.Printf("[ERROR] can't get userIDs: %+v", err)
+		log.Printf("[ERROR] can't get GetUserIDsByChannelID: %+v", err)
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func (j JoinChannelToUserRepository) CreateConnectionUserIDToChannelID(ctx conte
 	query := "INSERT INTO joinChannelToUser (user_ID, user_name, channel_ID, channel_name, created_at, updated_at) VALUES (?,?,?,?,?,?) "
 	_, err := j.Conn.ExecContext(ctx, query, join.UserID, join.UserName, join.ChannelID, join.ChannelName, join.CreatedAt, join.UpdatedAt)
 	if err != nil {
-		log.Printf("[ERROR] Insert: %+v", err)
+		log.Printf("[ERROR] can't create CreateConnectionUserIDToChannelID: %+v", err)
 		return nil
 	}
 
@@ -90,7 +90,7 @@ func (j JoinChannelToUserRepository) DeleteConnectionUserIDToChannelID(ctx conte
 	query := "DELETE FROM channel WHERE id = ?"
 	_, err := j.Conn.ExecContext(ctx, query, channelID)
 	if err != nil {
-		log.Printf("[ERROR] Delete: %+v", err)
+		log.Printf("[ERROR] can't delete DeleteConnectionUserIDToChannelID: %+v", err)
 		return nil
 	}
 
