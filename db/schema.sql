@@ -38,3 +38,15 @@ CREATE TABLE
                 INDEX `channel_updated_at` (`updated_at`)
 ) COMMENT = 'チャンネル';
 
+CREATE TABLE
+    `joinChannelToUser` (
+                  `user_id` VARCHAR(10) NOT NULL COMMENT 'ユーザー ID',
+                  `user_name` VARCHAR(30) COMMENT 'ユーザー名',
+                  `channel_id` VARCHAR(10) NOT NULL COMMENT 'チャンネル ID',
+                  `name` VARCHAR(30) COMMENT 'チャンネル名',
+                  `created_at` DATETIME NOT NULL COMMENT '作成日時',
+                  `updated_at` DATETIME NOT NULL COMMENT '更新日時',
+                  PRIMARY KEY (`user_id`, `channel_id`),
+                  FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+                  FOREIGN KEY (`channel_id`) REFERENCES `channel` (`channel_id`),
+) COMMENT = 'チャンネルとユーザーの中間テーブル';
