@@ -87,8 +87,8 @@ func (j JoinChannelToUserRepository) CreateConnectionUserIDToChannelID(ctx conte
 }
 
 func (j JoinChannelToUserRepository) DeleteConnectionUserIDToChannelID(ctx context.Context, userid domain.UserID, channelID domain.ChannelID) error {
-	query := "DELETE FROM channel WHERE id = ?"
-	_, err := j.Conn.ExecContext(ctx, query, channelID)
+	query := "DELETE FROM channel WHERE user_id = ? AND channel_id = ?"
+	_, err := j.Conn.ExecContext(ctx, query, userid, channelID)
 	if err != nil {
 		log.Printf("[ERROR] can't delete DeleteConnectionUserIDToChannelID: %+v", err)
 		return nil
