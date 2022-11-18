@@ -2,34 +2,19 @@ package handler
 
 import (
 	"context"
-	"log"
-	"net/http"
-	"os"
-	"time"
-
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
+	"log"
+	"net/http"
+	"os"
 )
 
 type Service interface {
 	Server(ctx context.Context)
 }
 
-type ServiceController struct {
-	// now 現在時刻を取得するための関数
-	Now    func() time.Time
-	Driver *ServiceDriver
-}
-
-func NewServiceController(service *ServiceDriver) *ServiceController {
-	return &ServiceController{
-		Now:    time.Now,
-		Driver: service,
-	}
-}
-
-func (s *ServiceController) Server(ctx context.Context) {
+func (s *ServiceDriver) Server(ctx context.Context) {
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -45,7 +30,7 @@ func (s *ServiceController) Server(ctx context.Context) {
 		r.Route("/message", func(r chi.Router) {
 			r.Route("/get", func(r chi.Router) {
 				r.Get("/send", func(w http.ResponseWriter, r *http.Request) {
-					s.Driver.MessageGetSend(ctx, w, r)
+					s.MessageGetSend(ctx, w, r)
 				})
 
 				r.Get("/notsend", func(w http.ResponseWriter, r *http.Request) {

@@ -11,6 +11,10 @@ type JoinChannelToUserRepository struct {
 	Conn *sql.Conn
 }
 
+func NewJoinChannelToUserRepository(conn *sql.Conn) *JoinChannelToUserRepository {
+	return &JoinChannelToUserRepository{Conn: conn}
+}
+
 func ScanChannelIDs(rows *sql.Rows) ([]domain.ChannelID, int, error) {
 	channelIDs := make([]domain.ChannelID, 0)
 
