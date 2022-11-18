@@ -19,7 +19,7 @@ func main() {
 	// database の初期化
 	sql, err := InitDatabase("localhost", 3306, "app", "root", "password")
 	if err != nil {
-		fmt.Println("error DB Open")
+		fmt.Println("error db Open")
 		os.Exit(1)
 	}
 
