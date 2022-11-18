@@ -63,7 +63,7 @@ func (c ChatToolUsecase) CreateChannel(ctx context.Context, channel *domain.Chan
 }
 
 func (c ChatToolUsecase) EditChannelConfig(ctx context.Context, beforeChannel *domain.Channel, afterChannel *domain.Channel) error {
-	err := c.ChannelRepo.UpdateChannel(ctx, beforeChannel, afterChannel)
+	err := c.ChannelRepo.UpdateChannel(ctx, "", afterChannel)
 	return err
 }
 

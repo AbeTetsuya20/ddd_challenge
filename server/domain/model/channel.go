@@ -12,7 +12,8 @@ func NewChannelID(uuid int) ChannelID {
 }
 
 type Channel struct {
-	ChannelID ChannelID
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ChannelID   ChannelID
+	ChannelName string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
