@@ -17,11 +17,14 @@ services:
       - "3306:3306"
     volumes:
       - mysql_volume:/var/lib/mysql
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/0-schema.sql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=app
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=password
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
 
 volumes:
   mysql_volume:
