@@ -49,4 +49,5 @@ CREATE TABLE
                   PRIMARY KEY (`user_id`, `channel_id`),
                   FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
                   FOREIGN KEY (`channel_id`) REFERENCES `channel` (`channel_id`),
+                  INDEX `join_updated_at` (`updated_at`)
 ) COMMENT = 'チャンネルとユーザーの中間テーブル';
