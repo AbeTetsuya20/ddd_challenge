@@ -11,8 +11,7 @@ type UserRepository struct {
 }
 
 func (u UserRepository) CreateUser(ctx context.Context, user *domain.User) error {
-	//TODO implement me
-	panic("implement me")
+
 }
 
 func (u UserRepository) GetUser(ctx context.Context) (*domain.User, error) {
