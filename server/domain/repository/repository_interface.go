@@ -16,7 +16,7 @@ type ChannelRepository interface {
 	CreateChannel(ctx context.Context, channel *domain.Channel) error
 	GetChannels(ctx context.Context) ([]*domain.Channel, error)
 	UpdateChannel(ctx context.Context, channelID domain.ChannelID, updatedChannel *domain.Channel) error
-	DeleteChannel(ctx context.Context, channelID *domain.ChannelID) error
+	DeleteChannel(ctx context.Context, channelID domain.ChannelID) error
 }
 
 type MessageRepository interface {
