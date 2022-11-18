@@ -8,10 +8,10 @@ import (
 )
 
 type UserRepository struct {
-	Conn *sql.Conn
+	Conn *sql.DB
 }
 
-func NewUserRepository(conn *sql.Conn) *UserRepository {
+func NewUserRepository(conn *sql.DB) *UserRepository {
 	return &UserRepository{Conn: conn}
 }
 

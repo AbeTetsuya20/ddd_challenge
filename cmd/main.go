@@ -25,9 +25,10 @@ func main() {
 	defer sql.Close()
 
 	// interface の初期化
+	service := handler.InitService(sql)
 
 	// サーバーの起動
-	handler.Server(ctx)
+	service.Server(ctx)
 
 	fmt.Println("finish main.go")
 }

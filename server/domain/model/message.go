@@ -12,13 +12,12 @@ func NewMessageID(messageTitle string) MessageID {
 }
 
 type Message struct {
-	MessageID    MessageID
-	MessageTitle string
-	MessageBody  string
-	Author       UserID
-	Channel      ChannelID
-	IsSend       bool
-	SendAt       time.Time
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+	MessageID   MessageID
+	MessageBody string
+	Author      UserID
+	ChannelID   ChannelID
+	IsSend      bool
+	SendAt      time.Time
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }

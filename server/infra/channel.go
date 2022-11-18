@@ -8,10 +8,10 @@ import (
 )
 
 type ChannelRepository struct {
-	Conn *sql.Conn
+	Conn *sql.DB
 }
 
-func NewChannelRepository(conn *sql.Conn) *ChannelRepository {
+func NewChannelRepository(conn *sql.DB) *ChannelRepository {
 	return &ChannelRepository{Conn: conn}
 }
 
