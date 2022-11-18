@@ -1,5 +1,3 @@
-USE app;
-
 CREATE TABLE
     `user` (
                `user_id` VARCHAR(10) NOT NULL COMMENT 'ユーザー ID',
@@ -10,6 +8,16 @@ CREATE TABLE
                PRIMARY KEY (`user_id`),
                INDEX `user_updated_at` (`updated_at`)
 ) COMMENT = 'ユーザー';
+
+CREATE TABLE
+    `channel` (
+                  `channel_id` VARCHAR(10) NOT NULL COMMENT 'チャンネル ID',
+                  `name` VARCHAR(30) COMMENT 'チャンネル名',
+                  `created_at` DATETIME NOT NULL COMMENT '作成日時',
+                  `updated_at` DATETIME NOT NULL COMMENT '更新日時',
+                  PRIMARY KEY (`channel_id`),
+                  INDEX `channel_updated_at` (`updated_at`)
+) COMMENT = 'チャンネル';
 
 CREATE TABLE
     `message` (
@@ -27,16 +35,6 @@ CREATE TABLE
                FOREIGN KEY (`channel`) REFERENCES `channel` (`channel_id`),
                INDEX `message_updated_at` (`updated_at`)
 ) COMMENT = 'メッセージ';
-
-CREATE TABLE
-    `channel` (
-                `channel_id` VARCHAR(10) NOT NULL COMMENT 'チャンネル ID',
-                `name` VARCHAR(30) COMMENT 'チャンネル名',
-                `created_at` DATETIME NOT NULL COMMENT '作成日時',
-                `updated_at` DATETIME NOT NULL COMMENT '更新日時',
-                PRIMARY KEY (`channel_id`),
-                INDEX `channel_updated_at` (`updated_at`)
-) COMMENT = 'チャンネル';
 
 CREATE TABLE
     `joinChannelToUser` (
