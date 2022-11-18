@@ -38,11 +38,11 @@ type MessageRepository interface {
 
 type JoinChannelToUserRepository interface {
 	// userID を指定して channelID を GET
-	GetChannelIDByUserID(ctx context.Context, userID domain.UserID) ([]domain.ChannelID, error)
+	GetChannelIDsByUserID(ctx context.Context, userID domain.UserID) ([]domain.ChannelID, error)
 	// channelID を指定して userID を GET
-	GetUserIDByChannelID(ctx context.Context, userID domain.ChannelID) ([]domain.UserID, error)
+	GetUserIDsByChannelID(ctx context.Context, channelID domain.ChannelID) ([]domain.UserID, error)
 	// チャンネルに入会したときに実行される
-	CreateConnectionUserIDToChannelID(ctx context.Context, userid domain.UserID, channelID domain.ChannelID) error
+	CreateConnectionUserIDToChannelID(ctx context.Context, join *domain.JoinChannelToUser) error
 	// チャンネルから脱退したときに実行される
 	DeleteConnectionUserIDToChannelID(ctx context.Context, userid domain.UserID, channelID domain.ChannelID) error
 }
