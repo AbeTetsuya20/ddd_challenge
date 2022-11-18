@@ -13,7 +13,7 @@ func NewUserID(name string) UserID {
 
 type User struct {
 	UserID    UserID
-	Name      string
+	UserName  string
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time

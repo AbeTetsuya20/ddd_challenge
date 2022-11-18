@@ -27,7 +27,7 @@ func ScanChannels(rows *sql.Rows) ([]*domain.Channel, int, error) {
 }
 
 func (c ChannelRepository) CreateChannel(ctx context.Context, channel *domain.Channel) error {
-	query := "INSERT INTO channel (channel_ID, created_at, updated_at) VALUES (?,?,?) "
+	query := "INSERT INTO channel (channel_ID, channel_name, created_at, updated_at) VALUES (?,?,?,?) "
 	_, err := c.Conn.ExecContext(ctx, query, channel.ChannelID, channel.CreatedAt, channel.UpdatedAt)
 	if err != nil {
 		log.Printf("[ERROR] can't create CreateChannel: %+v", err)
