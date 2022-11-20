@@ -93,4 +93,8 @@ INSERT INTO `message`(`message_id`, `message_body`,`author`,`channel_id`, `is_se
 VALUES ('message_122313', 'テストメッセージです。','UserID_testUser1_12345' ,'ChannelID_testChannel1_12345', true,Now(),NOW(),NOW());
 
 INSERT INTO `message`(`message_id`, `message_body`,`author`,`channel_id`, `is_send`, `send_at`,`created_at`,`updated_at`)
+VALUES ('message_9123', '未送信のテストメッセージです！','UserID_testUser1_12345' ,'ChannelID_testChannel1_12345', false ,NOW() + INTERVAL 100 DAY ,NOW(),NOW());
+
+
+INSERT INTO `message`(`message_id`, `message_body`,`author`,`channel_id`, `is_send`, `send_at`,`created_at`,`updated_at`)
 VALUES ('message_869123', 'チャンネル2 のテストメッセージです。','UserID_testUser1_12345' ,'ChannelID_testChannel2_12645', true,Now(),NOW(),NOW());
