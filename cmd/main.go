@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	domain "github.com/AbeTetsuya20/ddd_challenge/server/domain/model"
 	handler "github.com/AbeTetsuya20/ddd_challenge/server/interface"
 	"github.com/go-sql-driver/mysql"
 	"net"
@@ -24,13 +23,6 @@ func main() {
 		os.Exit(1)
 	}
 	defer sql.Close()
-
-	user, _ := sql.QueryContext(ctx, "select * from user")
-	for user.Next() {
-		var tmp domain.User
-		user.Scan(&tmp.UserID, &tmp.UserName, &tmp.Password, &tmp.CreatedAt, &tmp.UpdatedAt)
-		fmt.Printf("user: %+v", tmp)
-	}
 
 	// interface の初期化
 	service := handler.InitService(sql)

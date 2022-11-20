@@ -17,7 +17,7 @@ func NewUserRepository(conn *sql.DB) *UserRepository {
 
 func (u UserRepository) CreateUser(ctx context.Context, user *domain.User) error {
 	// 新規ユーザーの登録
-	query := "INSERT INTO user (user_ID, user_name, user_password, created_at, updated_at) VALUES (?,?,?,?,?) "
+	query := "INSERT INTO user (user_ID, user_name, password, created_at, updated_at) VALUES (?,?,?,?,?) "
 	_, err := u.Conn.ExecContext(ctx, query, user.UserID, user.UserName, user.Password, user.CreatedAt, user.UpdatedAt)
 	if err != nil {
 		log.Printf("[ERROR] can't create User: %+v", err)
@@ -27,18 +27,20 @@ func (u UserRepository) CreateUser(ctx context.Context, user *domain.User) error
 	return nil
 }
 
-func (u UserRepository) GetUser(ctx context.Context, userID domain.UserID) (*domain.User, error) {
+func (u UserRepository) GetUser(ctx context.Context, userID domain.UserID) (domain.User, error) {
 	query := "SELECT * FROM user WHERE user_id = ?"
 	rows, err := u.Conn.QueryContext(ctx, query, userID)
 	if err != nil {
 		log.Printf("[ERROR] can't get User: %+v", err)
-		return nil, err
+		return domain.User{}, err
 	}
 
-	var user *domain.User
-	if err := rows.Scan(user); err != nil {
-		log.Printf("[ERROR] scan ScanChannels: %+v", err)
-		return nil, err
+	var user domain.User
+	for rows.Next() {
+		if err := rows.Scan(&user.UserID, &user.UserName, &user.Password, &user.CreatedAt, &user.UpdatedAt); err != nil {
+			log.Printf("[ERROR] scan ScanUser: %+v", err)
+			return domain.User{}, err
+		}
 	}
 
 	return user, nil

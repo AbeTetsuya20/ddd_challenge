@@ -58,6 +58,24 @@ func (c ChannelRepository) GetChannels(ctx context.Context) ([]domain.Channel, e
 	return channels, nil
 }
 
+func (c ChannelRepository) GetChannelByChannelID(ctx context.Context, channelID domain.ChannelID) (domain.Channel, error) {
+	query := "SELECT * FROM	channel WHERE channel_id = ?"
+	rows, err := c.Conn.QueryContext(ctx, query, channelID)
+	if err != nil {
+		log.Printf("[ERROR] not found Channels: %+v", err)
+		return domain.Channel{}, err
+	}
+
+	var channel domain.Channel
+	for rows.Next() {
+		if err := rows.Scan(&channel.ChannelID, &channel.ChannelName, &channel.CreatedAt, &channel.UpdatedAt); err != nil {
+			log.Printf("[ERROR] scan ScanChannels: %+v", err)
+			return domain.Channel{}, err
+		}
+	}
+	return channel, nil
+}
+
 func (c ChannelRepository) UpdateChannel(ctx context.Context, channelID domain.ChannelID, updatedChannel *domain.Channel) error {
 	query := "UPDATE channel set ChannelName = ? WHERE ChannelID = ? "
 	_, err := c.Conn.ExecContext(ctx, query, updatedChannel, channelID)

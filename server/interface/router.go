@@ -51,34 +51,22 @@ func (s *ServiceDriver) Server(ctx context.Context) {
 
 		r.Route("/user", func(r chi.Router) {
 			r.Get("/get", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "/user/get",
-				}
-				render.JSON(w, r, data)
+				s.UserGet(ctx, w, r)
 			})
 		})
 
 		r.Route("/join", func(r chi.Router) {
 			r.Get("/delete", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "delete",
-				}
-				render.JSON(w, r, data)
+				s.JoinDelete(ctx, w, r)
 			})
 
 			r.Get("/create", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "create",
-				}
-				render.JSON(w, r, data)
+				s.JoinCreate(ctx, w, r)
 			})
 
 			r.Route("/get", func(r chi.Router) {
 				r.Get("/user", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "/join/get/user",
-					}
-					render.JSON(w, r, data)
+					s.JoinGetUser(ctx, w, r)
 				})
 
 				r.Get("/channel", func(w http.ResponseWriter, r *http.Request) {

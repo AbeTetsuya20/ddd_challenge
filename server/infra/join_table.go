@@ -15,8 +15,8 @@ func NewJoinChannelToUserRepository(conn *sql.DB) *JoinChannelToUserRepository {
 	return &JoinChannelToUserRepository{Conn: conn}
 }
 
-func ScanJoinChannelToUsers(rows *sql.Rows) ([]*domain.JoinChannelToUser, int, error) {
-	joinChannelToUsers := make([]*domain.JoinChannelToUser, 0)
+func ScanJoinChannelToUsers(rows *sql.Rows) ([]domain.JoinChannelToUser, int, error) {
+	joinChannelToUsers := make([]domain.JoinChannelToUser, 0)
 
 	for rows.Next() {
 		var v domain.JoinChannelToUser
@@ -24,28 +24,13 @@ func ScanJoinChannelToUsers(rows *sql.Rows) ([]*domain.JoinChannelToUser, int, e
 			log.Printf("[ERROR] scan ScanJoinChannelToUsers: %+v", err)
 			return nil, 0, err
 		}
-		joinChannelToUsers = append(joinChannelToUsers, &v)
+		joinChannelToUsers = append(joinChannelToUsers, v)
 	}
 
 	return joinChannelToUsers, len(joinChannelToUsers), nil
 }
 
-func ScanUserIDs(rows *sql.Rows) ([]domain.UserID, int, error) {
-	userIDs := make([]domain.UserID, 0)
-
-	for rows.Next() {
-		var v domain.UserID
-		if err := rows.Scan(&v); err != nil {
-			log.Printf("[ERROR] scan ScanUserIDs: %+v", err)
-			return nil, 0, err
-		}
-		userIDs = append(userIDs, v)
-	}
-
-	return userIDs, len(userIDs), nil
-}
-
-func (j JoinChannelToUserRepository) GetChannelIDsByUserID(ctx context.Context, userID domain.UserID) ([]*domain.JoinChannelToUser, error) {
+func (j JoinChannelToUserRepository) GetJoinByUserID(ctx context.Context, userID domain.UserID) ([]domain.JoinChannelToUser, error) {
 	query := "SELECT * FROM joinChannelToUser WHERE user_id = ?"
 	rows, err := j.Conn.QueryContext(ctx, query, userID)
 	if err != nil {
@@ -62,7 +47,7 @@ func (j JoinChannelToUserRepository) GetChannelIDsByUserID(ctx context.Context, 
 	return joinChannelToUsers, nil
 }
 
-func (j JoinChannelToUserRepository) GetUserIDsByChannelID(ctx context.Context, channelID domain.ChannelID) ([]domain.UserID, error) {
+func (j JoinChannelToUserRepository) GetJoinByChannelID(ctx context.Context, channelID domain.ChannelID) ([]domain.JoinChannelToUser, error) {
 	query := "SELECT * FROM joinChannelToUser WHERE channel_id = ?"
 	rows, err := j.Conn.QueryContext(ctx, query, channelID)
 	if err != nil {
@@ -70,13 +55,13 @@ func (j JoinChannelToUserRepository) GetUserIDsByChannelID(ctx context.Context, 
 		return nil, err
 	}
 
-	userIDs, _, err := ScanUserIDs(rows)
+	joinChannelToUsers, _, err := ScanJoinChannelToUsers(rows)
 	if err != nil {
 		log.Printf("[ERROR] can not scan Channels: %+v", err)
 		return nil, err
 	}
 
-	return userIDs, nil
+	return joinChannelToUsers, nil
 }
 
 func (j JoinChannelToUserRepository) CreateConnectionUserIDToChannelID(ctx context.Context, join *domain.JoinChannelToUser) error {

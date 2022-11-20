@@ -7,7 +7,7 @@ import (
 
 type UserRepository interface {
 	CreateUser(ctx context.Context, user *domain.User) error
-	GetUser(ctx context.Context, userID domain.UserID) (*domain.User, error)
+	GetUser(ctx context.Context, userID domain.UserID) (domain.User, error)
 	UpdateUser(ctx context.Context, userID string, updatedUser *domain.User) error
 	DeleteUser(ctx context.Context, userID domain.UserID) error
 }
@@ -15,6 +15,7 @@ type UserRepository interface {
 type ChannelRepository interface {
 	CreateChannel(ctx context.Context, channel *domain.Channel) error
 	GetChannels(ctx context.Context) ([]domain.Channel, error)
+	GetChannelByChannelID(ctx context.Context, channelID domain.ChannelID) (domain.Channel, error)
 	UpdateChannel(ctx context.Context, channelID domain.ChannelID, updatedChannel *domain.Channel) error
 	DeleteChannel(ctx context.Context, channelID domain.ChannelID) error
 }
@@ -37,10 +38,10 @@ type MessageRepository interface {
 }
 
 type JoinChannelToUserRepository interface {
-	// userID を指定して channelID を GET
-	GetChannelIDsByUserID(ctx context.Context, userID domain.UserID) ([]*domain.JoinChannelToUser, error)
-	// channelID を指定して userID を GET
-	GetUserIDsByChannelID(ctx context.Context, channelID domain.ChannelID) ([]domain.UserID, error)
+	// userID を指定して channelID と channelName を GET
+	GetJoinByUserID(ctx context.Context, userID domain.UserID) ([]domain.JoinChannelToUser, error)
+	// channelID を指定して userID と userName を GET
+	GetJoinByChannelID(ctx context.Context, channelID domain.ChannelID) ([]domain.JoinChannelToUser, error)
 	// チャンネルに入会したときに実行される
 	CreateConnectionUserIDToChannelID(ctx context.Context, join *domain.JoinChannelToUser) error
 	// チャンネルから脱退したときに実行される
