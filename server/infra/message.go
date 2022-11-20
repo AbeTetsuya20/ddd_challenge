@@ -3,6 +3,7 @@ package infra
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	domain "github.com/AbeTetsuya20/ddd_challenge/server/domain/model"
 	"log"
 )
@@ -17,14 +18,14 @@ func NewMessageRepository(conn *sql.DB) *MessageRepository {
 
 func ScanMessages(rows *sql.Rows) ([]*domain.Message, int, error) {
 	messages := make([]*domain.Message, 0)
-
 	for rows.Next() {
-		var v *domain.Message
+		var v domain.Message
 		if err := rows.Scan(&v.MessageID, &v.MessageBody, &v.Author, &v.ChannelID, &v.IsSend, &v.SendAt, &v.CreatedAt, &v.UpdatedAt); err != nil {
 			log.Printf("[ERROR] scan ScanChannels: %+v", err)
 			return nil, 0, err
 		}
-		messages = append(messages, v)
+		fmt.Sprintf("message: %+v/n", v)
+		messages = append(messages, &v)
 	}
 
 	return messages, len(messages), nil
@@ -42,6 +43,8 @@ func (m MessageRepository) CreateMessage(ctx context.Context, message *domain.Me
 }
 
 func (m MessageRepository) GetAllSendMessages(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error) {
+
+	fmt.Println(channelID)
 	query := "SELECT * FROM message WHERE channel_id = ? AND is_send = true"
 	rows, err := m.Conn.QueryContext(ctx, query, channelID)
 	if err != nil {
@@ -59,7 +62,7 @@ func (m MessageRepository) GetAllSendMessages(ctx context.Context, channelID dom
 }
 
 func (m MessageRepository) GetMessagesByChannelIDAndIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID, userID domain.UserID) ([]*domain.Message, error) {
-	query := "SELECT * FROM message WHERE channel_id = ? AND is_send = true AND author = ?"
+	query := "SELECT * FROM message WHERE channel_id = ? AND is_send = false AND author = ?"
 	rows, err := m.Conn.QueryContext(ctx, query, channelID, userID)
 	if err != nil {
 		log.Printf("[ERROR] can't get GetMessagesByChannelIDAndIsNotSendAndUserID: %+v", err)
@@ -76,7 +79,7 @@ func (m MessageRepository) GetMessagesByChannelIDAndIsNotSendAndUserID(ctx conte
 }
 
 func (m MessageRepository) UpdateMessage(ctx context.Context, updatedMessage *domain.Message) error {
-	query := "UPDATE message set message_body = ? , is_send = ?, send_at = ?, updated_at = ? WHERE ChannelID = ? "
+	query := "UPDATE message set message_body = ? , is_send = ?, send_at = ?, updated_at = ? WHERE channel_id = ? "
 	_, err := m.Conn.ExecContext(ctx, query, updatedMessage.MessageBody, updatedMessage.IsSend, updatedMessage.SendAt, updatedMessage.UpdatedAt)
 	if err != nil {
 		log.Printf("[ERROR] can't UpdateMessage: %+v", err)

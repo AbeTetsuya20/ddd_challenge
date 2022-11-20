@@ -2,13 +2,15 @@ package model
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"time"
 )
 
 type ChannelID string
 
-func NewChannelID(uuid int) ChannelID {
-	return ChannelID(fmt.Sprintf("channelID_%d", uuid))
+func NewChannelID() ChannelID {
+	uuid, _ := uuid.NewRandom()
+	return ChannelID(fmt.Sprintf("ChannelID_%s", uuid))
 }
 
 type Channel struct {

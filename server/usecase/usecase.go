@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	domain "github.com/AbeTetsuya20/ddd_challenge/server/domain/model"
 	"github.com/AbeTetsuya20/ddd_challenge/server/domain/repository"
 )
@@ -49,7 +48,6 @@ func NewChatToolUsecase(userRepo repository.UserRepository, channelRepo reposito
 }
 
 func (c ChatToolUsecase) SendMessage(ctx context.Context, message *domain.Message) error {
-	fmt.Println("きた！")
 	err := c.MessageRepo.CreateMessage(ctx, message)
 	return err
 }

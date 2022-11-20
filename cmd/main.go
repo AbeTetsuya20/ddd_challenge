@@ -17,7 +17,7 @@ func main() {
 	ctx := context.Background()
 
 	// database の初期化
-	sql, err := InitDatabase("localhost", 3306, "app", "root", "password")
+	sql, err := InitDatabase("dockerMySQL", 3306, "app", "root", "password")
 	if err != nil {
 		fmt.Println("error db Open")
 		os.Exit(1)

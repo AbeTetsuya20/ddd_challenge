@@ -2,13 +2,15 @@ package model
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"time"
 )
 
 type UserID string
 
 func NewUserID(name string) UserID {
-	return UserID(fmt.Sprintf("userID_%s", name))
+	uuid, _ := uuid.NewRandom()
+	return UserID(fmt.Sprintf("userID_%s_%s", name, uuid))
 }
 
 type User struct {

@@ -2,13 +2,15 @@ package model
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"time"
 )
 
 type MessageID string
 
 func NewMessageID(messageTitle string) MessageID {
-	return MessageID(fmt.Sprintf("messageID_%s", messageTitle))
+	uuid, _ := uuid.NewRandom()
+	return MessageID(fmt.Sprintf("MessageID_%s_%s", messageTitle, uuid))
 }
 
 type Message struct {

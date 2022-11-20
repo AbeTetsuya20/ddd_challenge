@@ -11,9 +11,12 @@ services:
     volumes:
       - ./:/go/src/app
     tty: true
+    environment:
+      - MYSQL_HOST=dockerMySQL
 
   db:
     image: mysql:5.7
+    container_name: dockerMySQL
     platform: linux/amd64
     ports:
       - "3306:3306"

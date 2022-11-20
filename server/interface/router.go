@@ -34,10 +34,7 @@ func (s *ServiceDriver) Server(ctx context.Context) {
 				})
 
 				r.Get("/notsend", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "notsend",
-					}
-					render.JSON(w, r, data)
+					s.MessageGetNotSend(ctx, w, r)
 				})
 			})
 		})
