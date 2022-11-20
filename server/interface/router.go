@@ -41,17 +41,11 @@ func (s *ServiceDriver) Server(ctx context.Context) {
 
 		r.Route("/channel", func(r chi.Router) {
 			r.Get("/get", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "get",
-				}
-				render.JSON(w, r, data)
+				s.ChannelGet(ctx, w, r)
 			})
 
 			r.Get("/create", func(w http.ResponseWriter, r *http.Request) {
-				data := map[string]string{
-					"message": "create",
-				}
-				render.JSON(w, r, data)
+				s.ChannelCreate(ctx, w, r)
 			})
 		})
 
@@ -88,10 +82,7 @@ func (s *ServiceDriver) Server(ctx context.Context) {
 				})
 
 				r.Get("/channel", func(w http.ResponseWriter, r *http.Request) {
-					data := map[string]string{
-						"message": "channel",
-					}
-					render.JSON(w, r, data)
+					s.JoinGetChannel(ctx, w, r)
 				})
 			})
 		})

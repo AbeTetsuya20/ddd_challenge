@@ -14,7 +14,7 @@ type UserRepository interface {
 
 type ChannelRepository interface {
 	CreateChannel(ctx context.Context, channel *domain.Channel) error
-	GetChannels(ctx context.Context) ([]*domain.Channel, error)
+	GetChannels(ctx context.Context) ([]domain.Channel, error)
 	UpdateChannel(ctx context.Context, channelID domain.ChannelID, updatedChannel *domain.Channel) error
 	DeleteChannel(ctx context.Context, channelID domain.ChannelID) error
 }
@@ -25,10 +25,10 @@ type MessageRepository interface {
 
 	// ChannelID を指定して送信済みすべてのメッセージ一覧を取得
 	// フロントエンドから 1 分に 1 回のリクエストを想定
-	GetAllSendMessages(ctx context.Context, channelID domain.ChannelID) ([]*domain.Message, error)
+	GetAllSendMessages(ctx context.Context, channelID domain.ChannelID) ([]domain.Message, error)
 
 	// ChannelID を指定して特定の user の未送信のメッセージ一覧を取得
-	GetMessagesByChannelIDAndIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID, userID domain.UserID) ([]*domain.Message, error)
+	GetMessagesByChannelIDAndIsNotSendAndUserID(ctx context.Context, channelID domain.ChannelID, userID domain.UserID) ([]domain.Message, error)
 
 	// メッセージを更新する
 	UpdateMessage(ctx context.Context, updatedMessage *domain.Message) error
@@ -38,7 +38,7 @@ type MessageRepository interface {
 
 type JoinChannelToUserRepository interface {
 	// userID を指定して channelID を GET
-	GetChannelIDsByUserID(ctx context.Context, userID domain.UserID) ([]domain.ChannelID, error)
+	GetChannelIDsByUserID(ctx context.Context, userID domain.UserID) ([]*domain.JoinChannelToUser, error)
 	// channelID を指定して userID を GET
 	GetUserIDsByChannelID(ctx context.Context, channelID domain.ChannelID) ([]domain.UserID, error)
 	// チャンネルに入会したときに実行される

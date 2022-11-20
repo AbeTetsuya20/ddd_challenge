@@ -15,12 +15,12 @@ func NewChannelRepository(conn *sql.DB) *ChannelRepository {
 	return &ChannelRepository{Conn: conn}
 }
 
-func ScanChannels(rows *sql.Rows) ([]*domain.Channel, int, error) {
-	channels := make([]*domain.Channel, 0)
+func ScanChannels(rows *sql.Rows) ([]domain.Channel, int, error) {
+	channels := make([]domain.Channel, 0)
 
 	for rows.Next() {
-		var v *domain.Channel
-		if err := rows.Scan(&v.ChannelID, &v.CreatedAt, &v.UpdatedAt); err != nil {
+		var v domain.Channel
+		if err := rows.Scan(&v.ChannelID, &v.ChannelName, &v.CreatedAt, &v.UpdatedAt); err != nil {
 			log.Printf("[ERROR] scan ScanChannels: %+v", err)
 			return nil, 0, err
 		}
@@ -32,7 +32,7 @@ func ScanChannels(rows *sql.Rows) ([]*domain.Channel, int, error) {
 
 func (c ChannelRepository) CreateChannel(ctx context.Context, channel *domain.Channel) error {
 	query := "INSERT INTO channel (channel_ID, channel_name, created_at, updated_at) VALUES (?,?,?,?) "
-	_, err := c.Conn.ExecContext(ctx, query, channel.ChannelID, channel.CreatedAt, channel.UpdatedAt)
+	_, err := c.Conn.ExecContext(ctx, query, channel.ChannelID, channel.ChannelName, channel.CreatedAt, channel.UpdatedAt)
 	if err != nil {
 		log.Printf("[ERROR] can't create CreateChannel: %+v", err)
 		return nil
@@ -41,7 +41,7 @@ func (c ChannelRepository) CreateChannel(ctx context.Context, channel *domain.Ch
 	return nil
 }
 
-func (c ChannelRepository) GetChannels(ctx context.Context) ([]*domain.Channel, error) {
+func (c ChannelRepository) GetChannels(ctx context.Context) ([]domain.Channel, error) {
 	query := "SELECT * FROM channel"
 	rows, err := c.Conn.QueryContext(ctx, query)
 	if err != nil {
